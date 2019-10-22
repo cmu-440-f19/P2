@@ -549,7 +549,7 @@ func (cfg *config) setlongreordering(longrel bool) {
 // try a few times in case re-elections are needed.
 func (cfg *config) checkOneLeader() int {
 	for iters := 0; iters < 10; iters++ {
-		time.Sleep(RaftElectionTimeout * 2)
+		time.Sleep(500 * time.Millisecond)
 		leaders := make(map[int][]int)
 		for i := 0; i < cfg.n; i++ {
 			if cfg.connected[i] {
@@ -624,7 +624,6 @@ func (cfg *config) checkTerms() int {
 
 // check that there's no leader
 func (cfg *config) checkNoLeader() {
-	time.Sleep(RaftElectionTimeout)
 	for i := 0; i < cfg.n; i++ {
 		if cfg.connected[i] {
 			_, _, is_leader := cfg.rafts[i].GetState()
